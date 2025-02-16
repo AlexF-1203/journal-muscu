@@ -16,32 +16,13 @@ const firebaseConfig = {
 };
 
 // Initialiser Firebase
-let app;
-let auth;
-let db;
+const app = initializeApp(firebaseConfig);
 
-try {
-  app = initializeApp(firebaseConfig);
-  auth = initializeAuth(app, {
-    persistence: getReactNativePersistence(AsyncStorage)
-  });
-  db = getFirestore(app);
-} catch (error) {
-  console.error("Erreur d'initialisation Firebase :", error);
-}
+// Initialisation correcte de l'authentification avec persistence
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage)
+});
 
-// Vérifier l'authentification
-export const checkAuth = async () => {
-  try {
-    const user = auth.currentUser;
-    if (!user) {
-      throw new Error('Utilisateur non authentifié');
-    }
-    return user;
-  } catch (error) {
-    console.error('Erreur de vérification de l\'authentification:', error);
-    throw error;
-  }
-};
+const db = getFirestore(app);
 
 export { auth, db }; 

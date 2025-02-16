@@ -6,7 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "dark",
-    "newArchEnabled": true,
     "splash": {
       "image": "./assets/imgage_fond.png",
       "resizeMode": "contain",
@@ -15,25 +14,10 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.ginn1203.strideup"
-    },
     "android": {
       "package": "com.ginn1203.strideup",
       "versionCode": 1,
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/logo.png",
-        "backgroundColor": "#1A1B1E"
-      },
-      "permissions": [
-        "INTERNET"
-      ],
-      "softwareKeyboardLayoutMode": "pan",
-      "allowBackup": true
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+      "permissions": ["INTERNET"]
     },
     "extra": {
       "firebaseApiKey": "AIzaSyAPB1N4uWgGnZ4zvwTzdlTath42EKpxGeM",
@@ -48,7 +32,12 @@
       }
     },
     "plugins": [
-      "expo-font"
-    ]
+      "expo-font",
+      "expo-updates"
+    ],
+    "updates": {
+      "enabled": true,
+      "fallbackToCacheTimeout": 0
+    }
   }
 }

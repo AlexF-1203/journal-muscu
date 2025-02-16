@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, LogBox } from 'react-native';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -122,6 +122,11 @@ const initialiserDonnees = async () => {
     console.error('Erreur lors de l\'initialisation des données:', error);
   }
 };
+
+LogBox.ignoreLogs([
+  'Unable to load script',
+  'Remote debugger',
+]);
 
 export default function App() {
   React.useEffect(() => {

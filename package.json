@@ -5,7 +5,10 @@
   "expo": {
     "doctor": {
       "reactNativeDirectoryCheck": {
-        "exclude": ["react-native-chart-kit", "firebase"],
+        "exclude": [
+          "react-native-chart-kit",
+          "firebase"
+        ],
         "listUnknownPackages": false
       }
     }
@@ -14,25 +17,31 @@
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "prebuild": "expo export --platform android --dev false --max-workers 1",
+    "build:android": "expo export --platform android --clear"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-firebase/app": "^21.10.0",
     "@react-native-picker/picker": "2.9.0",
     "@react-navigation/native": "^7.0.14",
     "@react-navigation/native-stack": "^7.2.0",
-    "expo": "~52.0.30",
+    "expo": "~52.0.33",
     "expo-constants": "~17.0.5",
     "expo-status-bar": "~2.0.1",
-    "firebase": "^11.3.0",
+    "firebase": "^10.11.1",
     "react": "18.3.1",
     "react-native": "0.76.7",
-    "react-native-chart-kit": "^6.12.0"
+    "react-native-chart-kit": "^6.12.0",
+    "expo-updates": "~0.26.17"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/react": "~18.3.12",
-    "typescript": "^5.3.3"
+    "metro": "^0.81.0",
+    "metro-config": "^0.81.0",
+    "metro-resolver": "^0.81.0",
+    "@react-native-community/cli": "latest"
   },
   "private": true,
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
