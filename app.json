@@ -16,6 +16,7 @@
     ],
     "android": {
       "package": "com.ginn1203.strideup",
+      "googleServicesFile": "./google-services.json",
       "versionCode": 1,
       "permissions": [
         "INTERNET"
@@ -40,18 +41,12 @@
         "expo-build-properties",
         {
           "android": {
-            "compileSdkVersion": 33,
-            "targetSdkVersion": 33,
-            "buildToolsVersion": "33.0.0",
-            "enableProguardInReleaseBuilds": false
-          },
-          "ios": {
-            "useFrameworks": "static"
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
           }
         }
-      ],
-      "@react-native-firebase/app",
-      "@react-native-firebase/crashlytics"
+      ]
     ],
     "updates": {
       "enabled": true,

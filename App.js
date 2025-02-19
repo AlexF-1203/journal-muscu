@@ -18,9 +18,6 @@ import Performance from './src/pages/Performance';
 import EditSeance from './src/pages/EditSeance';
 import { COLORS } from './src/theme/colors';
 import CreateExercice from './src/pages/CreateExercice';
-import { initCrashlytics, logError } from './firebase';
-import { ErrorUtils } from 'react-native';
-import crashlytics from '@react-native-firebase/crashlytics';
 import Constants from 'expo-constants';
 
 const Stack = createNativeStackNavigator();
@@ -133,57 +130,18 @@ LogBox.ignoreLogs([
 ]);
 
 export default function App() {
-  const { user } = React.useContext(AuthContext);
-
   useEffect(() => {
-    // Initialiser Crashlytics au démarrage
-    initCrashlytics();
-
-    // Capturer les erreurs non gérées
-    const errorHandler = (error, isFatal) => {
-      logError(error, {
-        isFatal,
-        timestamp: new Date().toISOString(),
-        // Ajoutez d'autres informations utiles
-      });
-    };
-
-    ErrorUtils.setGlobalHandler(errorHandler);
-
-    return () => {
-      // Nettoyage si nécessaire
-      ErrorUtils.setGlobalHandler(null);
-    };
-  }, []);
-
-  useEffect(() => {
-    initialiserDonnees();
-  }, []);
-
-  useEffect(() => {
-    // Test de crash au démarrage
-    const testCrash = async () => {
+    const initApp = async () => {
       try {
-        crashlytics().log('App started');
-        
-        // Log de l'utilisateur si connecté
-        if (user) {
-          await crashlytics().setUserId(user.uid);
-        }
-        
-        // Log des informations de l'app
-        crashlytics().setAttribute('appVersion', Constants.expoConfig.version);
-        crashlytics().setAttribute('buildNumber', Constants.expoConfig.android.versionCode.toString());
-        
-        // Simuler une erreur pour test
-        // throw new Error('Test Crash');
+        await initialiserDonnees();
+        console.log('Application initialisée avec succès');
       } catch (error) {
-        crashlytics().recordError(error);
+        console.error('Erreur lors de l\'initialisation:', error);
       }
     };
 
-    testCrash();
-  }, [user]);
+    initApp();
+  }, []);
 
   return (
     <AuthProvider>

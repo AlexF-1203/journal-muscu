@@ -11,12 +11,18 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
+    try {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        console.log('État de l\'authentification changé:', user ? 'Connecté' : 'Déconnecté');
+        setUser(user);
+        setLoading(false);
+      });
 
-    return unsubscribe;
+      return unsubscribe;
+    } catch (error) {
+      console.error('Erreur dans AuthProvider:', error);
+      setLoading(false);
+    }
   }, []);
 
   if (loading) {

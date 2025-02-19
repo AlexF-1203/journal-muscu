@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "490734071506",
+    "project_id": "journal-sportif",
+    "storage_bucket": "journal-sportif.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490734071506:android:aa848d50b853f42df5c70b",
+        "android_client_info": {
+          "package_name": "com.ginn1203.strideup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPRklMT46EB_k8uTV3xVkszsTaJu2Latc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
