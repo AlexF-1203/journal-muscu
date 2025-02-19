@@ -23,12 +23,20 @@ import Constants from 'expo-constants';
 const Stack = createNativeStackNavigator();
 
 const AppContent = () => {
-  const { user, loading } = React.useContext(AuthContext);
+  const { user, loading, error } = React.useContext(AuthContext);
 
   if (loading) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color={COLORS.primary} />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.errorText}>Une erreur est survenue: {error}</Text>
       </View>
     );
   }

@@ -9,18 +9,27 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     try {
+      if (!auth) {
+        throw new Error('Firebase Auth n\'est pas initialisé');
+      }
+
       const unsubscribe = onAuthStateChanged(auth, (user) => {
-        console.log('État de l\'authentification changé:', user ? 'Connecté' : 'Déconnecté');
         setUser(user);
+        setLoading(false);
+      }, (error) => {
+        console.error('Erreur Auth:', error);
+        setError(error.message);
         setLoading(false);
       });
 
       return unsubscribe;
     } catch (error) {
       console.error('Erreur dans AuthProvider:', error);
+      setError(error.message);
       setLoading(false);
     }
   }, []);
@@ -34,17 +43,8 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading, error }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: COLORS.background
-  }
-}); 

@@ -4,25 +4,33 @@ import { getFirestore } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 
-// Configuration Firebase
 const firebaseConfig = {
-  apiKey: Constants.expoConfig.extra.firebaseApiKey,
-  authDomain: Constants.expoConfig.extra.firebaseAuthDomain,
-  projectId: Constants.expoConfig.extra.firebaseProjectId,
-  storageBucket: Constants.expoConfig.extra.firebaseStorageBucket,
-  messagingSenderId: Constants.expoConfig.extra.firebaseMessagingSenderId,
-  appId: Constants.expoConfig.extra.firebaseAppId,
-  measurementId: Constants.expoConfig.extra.firebaseMeasurementId
+  apiKey: Constants.expoConfig?.extra?.firebaseApiKey,
+  authDomain: Constants.expoConfig?.extra?.firebaseAuthDomain,
+  projectId: Constants.expoConfig?.extra?.firebaseProjectId,
+  storageBucket: Constants.expoConfig?.extra?.firebaseStorageBucket,
+  messagingSenderId: Constants.expoConfig?.extra?.firebaseMessagingSenderId,
+  appId: Constants.expoConfig?.extra?.firebaseAppId,
 };
 
-// Initialiser Firebase
-const app = initializeApp(firebaseConfig);
+let app;
+let auth;
+let db;
 
-// Initialisation correcte de l'authentification avec persistence
-const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(AsyncStorage)
-});
+try {
+  // Initialiser Firebase
+  app = initializeApp(firebaseConfig);
+  
+  // Initialiser Auth avec persistence
+  auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage)
+  });
+  
+  // Initialiser Firestore
+  db = getFirestore(app);
+  
+} catch (error) {
+  console.error('Erreur d\'initialisation Firebase:', error);
+}
 
-const db = getFirestore(app);
-
-export { auth, db }; 
+export { auth, db };
