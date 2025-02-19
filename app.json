@@ -17,7 +17,9 @@
     "android": {
       "package": "com.ginn1203.strideup",
       "versionCode": 1,
-      "permissions": ["INTERNET"]
+      "permissions": [
+        "INTERNET"
+      ]
     },
     "extra": {
       "firebaseApiKey": "AIzaSyAPB1N4uWgGnZ4zvwTzdlTath42EKpxGeM",
@@ -33,11 +35,30 @@
     },
     "plugins": [
       "expo-font",
-      "expo-updates"
+      "expo-updates",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 33,
+            "targetSdkVersion": 33,
+            "buildToolsVersion": "33.0.0",
+            "enableProguardInReleaseBuilds": false
+          },
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
+      "@react-native-firebase/app",
+      "@react-native-firebase/crashlytics"
     ],
     "updates": {
       "enabled": true,
       "fallbackToCacheTimeout": 0
+    },
+    "ios": {
+      "bundleIdentifier": "com.ginn1203.strideup"
     }
   }
 }

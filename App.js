@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, ActivityIndicator, LogBox } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthProvider, AuthContext } from './src/service/AuthProvider';
@@ -18,6 +18,10 @@ import Performance from './src/pages/Performance';
 import EditSeance from './src/pages/EditSeance';
 import { COLORS } from './src/theme/colors';
 import CreateExercice from './src/pages/CreateExercice';
+import { initCrashlytics, logError } from './firebase';
+import { ErrorUtils } from 'react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
+import Constants from 'expo-constants';
 
 const Stack = createNativeStackNavigator();
 
@@ -129,9 +133,57 @@ LogBox.ignoreLogs([
 ]);
 
 export default function App() {
-  React.useEffect(() => {
+  const { user } = React.useContext(AuthContext);
+
+  useEffect(() => {
+    // Initialiser Crashlytics au démarrage
+    initCrashlytics();
+
+    // Capturer les erreurs non gérées
+    const errorHandler = (error, isFatal) => {
+      logError(error, {
+        isFatal,
+        timestamp: new Date().toISOString(),
+        // Ajoutez d'autres informations utiles
+      });
+    };
+
+    ErrorUtils.setGlobalHandler(errorHandler);
+
+    return () => {
+      // Nettoyage si nécessaire
+      ErrorUtils.setGlobalHandler(null);
+    };
+  }, []);
+
+  useEffect(() => {
     initialiserDonnees();
   }, []);
+
+  useEffect(() => {
+    // Test de crash au démarrage
+    const testCrash = async () => {
+      try {
+        crashlytics().log('App started');
+        
+        // Log de l'utilisateur si connecté
+        if (user) {
+          await crashlytics().setUserId(user.uid);
+        }
+        
+        // Log des informations de l'app
+        crashlytics().setAttribute('appVersion', Constants.expoConfig.version);
+        crashlytics().setAttribute('buildNumber', Constants.expoConfig.android.versionCode.toString());
+        
+        // Simuler une erreur pour test
+        // throw new Error('Test Crash');
+      } catch (error) {
+        crashlytics().recordError(error);
+      }
+    };
+
+    testCrash();
+  }, [user]);
 
   return (
     <AuthProvider>
