@@ -9,18 +9,37 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     let unsubscribe;
     try {
       if (auth) {
-        unsubscribe = onAuthStateChanged(auth, (user) => {
-          setUser(user);
-          setLoading(false);
+        unsubscribe = onAuthStateChanged(auth, async (user) => {
+          try {
+            if (user) {
+              await logMessage('User authenticated', {
+                userId: user.uid,
+                email: user.email
+              });
+            }
+            setUser(user);
+            setLoading(false);
+          } catch (error) {
+            await logError(error, {
+              context: 'AuthProvider.onAuthStateChanged',
+              userId: user?.uid
+            });
+            setError(error.message);
+            setLoading(false);
+          }
         });
       }
     } catch (error) {
-      console.error('Erreur AuthProvider:', error);
+      logError(error, {
+        context: 'AuthProvider.useEffect'
+      });
+      setError(error.message);
       setLoading(false);
     }
 

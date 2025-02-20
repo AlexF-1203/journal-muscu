@@ -18,15 +18,25 @@ let auth;
 let db;
 
 try {
+  console.log('Début initialisation Firebase');
+  
   if (!app) {
     app = initializeApp(firebaseConfig);
-    auth = getAuth(app);
+    console.log('App Firebase initialisée');
+    
+    auth = initializeAuth(app, {
+      persistence: getReactNativePersistence(AsyncStorage)
+    });
+    console.log('Auth Firebase initialisée');
+    
     db = getFirestore(app);
-    console.log('Firebase initialisé avec succès');
+    console.log('Firestore initialisé');
   }
 } catch (error) {
-  console.error('Erreur initialisation Firebase:', error);
-  throw error;
+  console.error('Erreur détaillée Firebase:', error);
+  console.error('Stack trace:', error.stack);
+  // Ne pas throw l'erreur pour éviter le crash
+  console.error('Erreur initialisation Firebase mais continuation de l\'app');
 }
 
 export { auth, db };

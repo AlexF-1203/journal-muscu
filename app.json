@@ -22,6 +22,11 @@
         "INTERNET"
       ]
     },
+    "plugins": [
+      "expo-font",
+      "expo-updates",
+      "@react-native-firebase/app"
+    ],
     "extra": {
       "firebaseApiKey": "AIzaSyAPB1N4uWgGnZ4zvwTzdlTath42EKpxGeM",
       "firebaseAuthDomain": "journal-sportif.firebaseapp.com",
@@ -33,14 +38,6 @@
       "eas": {
         "projectId": "219217f5-d179-4da5-b5f6-de111a49ab1c"
       }
-    },
-    "plugins": [
-      "expo-font",
-      "expo-updates"
-    ],
-    "updates": {
-      "enabled": true,
-      "fallbackToCacheTimeout": 0
     },
     "ios": {
       "bundleIdentifier": "com.ginn1203.strideup"

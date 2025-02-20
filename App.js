@@ -138,9 +138,11 @@ LogBox.ignoreLogs([
 ]);
 
 export default function App() {
+
   useEffect(() => {
     const initApp = async () => {
       try {
+        await initializeCrashlytics();
         await initialiserDonnees();
         console.log('Application initialisée avec succès');
       } catch (error) {
