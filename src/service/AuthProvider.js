@@ -9,30 +9,24 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
+    let unsubscribe;
     try {
-      if (!auth) {
-        throw new Error('Firebase Auth n\'est pas initialisé');
+      if (auth) {
+        unsubscribe = onAuthStateChanged(auth, (user) => {
+          setUser(user);
+          setLoading(false);
+        });
       }
-
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        setUser(user);
-        setLoading(false);
-      }, (error) => {
-        console.error('Erreur Auth:', error);
-        setError(error.message);
-        setLoading(false);
-      });
-
-      return unsubscribe;
     } catch (error) {
-      console.error('Erreur dans AuthProvider:', error);
-      setError(error.message);
+      console.error('Erreur AuthProvider:', error);
       setLoading(false);
     }
+
+    return () => unsubscribe && unsubscribe();
   }, []);
+
 
   if (loading) {
     return (

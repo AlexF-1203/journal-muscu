@@ -36,17 +36,7 @@
     },
     "plugins": [
       "expo-font",
-      "expo-updates",
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "compileSdkVersion": 34,
-            "targetSdkVersion": 34,
-            "buildToolsVersion": "34.0.0"
-          }
-        }
-      ]
+      "expo-updates"
     ],
     "updates": {
       "enabled": true,
