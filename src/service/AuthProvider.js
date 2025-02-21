@@ -15,37 +15,21 @@ export const AuthProvider = ({ children }) => {
     let unsubscribe;
     try {
       if (auth) {
-        unsubscribe = onAuthStateChanged(auth, async (user) => {
-          try {
-            if (user) {
-              await logMessage('User authenticated', {
-                userId: user.uid,
-                email: user.email
-              });
-            }
-            setUser(user);
-            setLoading(false);
-          } catch (error) {
-            await logError(error, {
-              context: 'AuthProvider.onAuthStateChanged',
-              userId: user?.uid
-            });
-            setError(error.message);
-            setLoading(false);
-          }
+        unsubscribe = onAuthStateChanged(auth, (user) => {
+          setUser(user);
+          setLoading(false);
+        }, (error) => {
+          setError(error.message);
+          setLoading(false);
         });
       }
     } catch (error) {
-      logError(error, {
-        context: 'AuthProvider.useEffect'
-      });
       setError(error.message);
       setLoading(false);
     }
 
     return () => unsubscribe && unsubscribe();
   }, []);
-
 
   if (loading) {
     return (
@@ -61,3 +45,12 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.background
+  }
+});
