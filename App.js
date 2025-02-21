@@ -142,11 +142,13 @@ export default function App() {
   useEffect(() => {
     const initApp = async () => {
       try {
-        await initializeCrashlytics();
+        if (!auth || !db) {
+          throw new Error('Firebase not initialized');
+        }
         await initialiserDonnees();
-        console.log('Application initialisée avec succès');
       } catch (error) {
-        console.error('Erreur lors de l\'initialisation:', error);
+        console.error('Initialization error:', error);
+        // Gérer l'erreur de manière appropriée
       }
     };
 
@@ -154,10 +156,12 @@ export default function App() {
   }, []);
 
   return (
-    <AuthProvider>
-      <AppContent />
-      <StatusBar style="auto" />
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <AppContent />
+        <StatusBar style="auto" />
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 

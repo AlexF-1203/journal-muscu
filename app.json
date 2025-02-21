@@ -24,8 +24,7 @@
     },
     "plugins": [
       "expo-font",
-      "expo-updates",
-      "@react-native-firebase/app"
+      "expo-updates"
     ],
     "extra": {
       "firebaseApiKey": "AIzaSyAPB1N4uWgGnZ4zvwTzdlTath42EKpxGeM",
